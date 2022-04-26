@@ -150,18 +150,18 @@ class Board
   attr_reader :cells
 end
 
-game = Game.new(easy)
-game.board1.insert_ship('A1', 'horizontal')
+#game = Game.new(easy)
+#game.board1.insert_ship('A1', 'horizontal')
 
 # Verifying is true
-puts game.board1.cells[0][0].isship
-puts game.board1.cells[0][1].isship
-puts game.board1.cells[0][2].isship
+#puts game.board1.cells[0][0].isship
+#puts game.board1.cells[0][1].isship
+#puts game.board1.cells[0][2].isship
 
 # verifying it gets properly shot
-game.board1.shoot_block('A1')
-game.board1.shoot_block('A0')
-game.board1.shoot_block('A2')
-puts game.board1.cells[0][0].shot
-puts game.board1.cells[0][1].shot
-puts game.board1.cells[0][2].shot
+#game.board1.shoot_block('A1')
+#game.board1.shoot_block('A0')
+#game.board1.shoot_block('A2')
+#puts game.board1.cells[0][0].shot
+#puts game.board1.cells[0][1].shot
+#puts game.board1.cells[0][2].shot
