@@ -1,10 +1,4 @@
-toletters = { 0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F',
-              6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'J',
-              12 => 'M', 13 => 'N', 14 => 'O' }
-tonumbers = {}
-toletters.each do |key, value|
-  tonumbers[value] = key
-end
+
 
 easy = { 'size' => 10, 'ships' => 5 }
 hard = { 'size' => 15, 'ships' => 8 }
@@ -33,6 +27,8 @@ class Block
     @isship = false
   end
   attr_reader :position
+  attr_reader :isship
+  attr_reader :isshot
 end
 
 # Creacion tablero #
@@ -49,9 +45,17 @@ class Board
     @toletters.each do |key, value|
       @tonumbers[value] = key
     end
+    if size == 10
+      #3 boats
+      @blocks_to_shoot = 9
+    else
+      #5 boats
+      @blocks_to_shoot = 15
+    end
 
     cells_create
   end
+
 
   def cells_create
     i = 0
@@ -73,13 +77,18 @@ class Board
   #Inserta el barco de ser posible, en la posición indicada, orientación y tamaño
   def insert_ship(position, orientation)
     if verify_insertion(position, orientation)
+      index_i = @tonumbers[position[0]]
+      index_j = position[1].to_i
+    end
       if orientation == 'horizontal'
-        i = 0
-        while i < 3
-          @cells[]
+        (0..2).each do |n|
+          @cells[index_i][index_j - 1 + n].isship = true
+        end
+      else
+        (0..2).each do |n|
+          @cells[index_i  - 1 + n][index_j].isship = true
         end
       end
-    end
   end
   
   #Verifica que el barco pueda ser insertado en el lugar propuesto
@@ -93,13 +102,33 @@ class Board
     elsif orientation == 'vertical' && (index_i <1 || index_i > @size - 2)
       return false
     end
+
+    i_array = [@cells[index_i - 1][index_j].isship, @cells[index_i][index_j].isship, @cells[index_i + 1][index_j].isship]
+    j_array = [@cells[index_i][index_j - 1].isship, @cells[index_i][index_j].isship, @cells[index_i][index_j +1].isship]
+
+    if orientation == 'horizontal' && (j_array[0] || j_array[1] || j_array[2])
+      return false
+
+    elsif orientation == 'vertical' && (i_array[0] || i_array[1] || j_array[2])
+      return false
+    end
   return true
   end
-  attr_reader :cells
+
+  def shoot_block(position)
+    index_i = @tonumbers[position[0]]
+    index_j = position[1].to_i
+    if @cells[index_i][index_j].isship && @cells[index_i][index_j].isshot
+      @blocks_to_shoot -= 1
+      return true
+    end
+    return false
+  end
+
+
+
+attr_reader :cells
 end
 
-
-
-
-game = Game.new(easy).board1.verify_insertion('A0', 'horizontal')
+game = Game.new(easy).board1.verify_insertion('I1', 'vertical')
 puts game
