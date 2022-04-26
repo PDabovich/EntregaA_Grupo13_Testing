@@ -46,17 +46,19 @@ class Board
       @tonumbers[value] = key
     end
     if size == 10
-      #3 boats
+
+    #Si alguno de estos atributos llega a 0 el juego termina con el oponente ganando
+      #5 boats
       @blocks_to_shoot = 9
     else
-      #5 boats
+      #3 boats
       @blocks_to_shoot = 15
     end
 
     cells_create
   end
 
-
+  #Ayuda a crear bloques en el inicio del juego
   def cells_create
     i = 0
     while i < @size
@@ -71,6 +73,13 @@ class Board
       end
       @cells.append(temp)
       i += 1
+    end
+  end
+
+  #Si retorna true, el jugado de esta tabla ha perdido.
+  def lost_board
+    if @blocks_to_shoot = 0
+      return true
     end
   end
 
