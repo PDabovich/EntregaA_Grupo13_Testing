@@ -50,7 +50,7 @@ class Board
     @toletters = { 0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F',
                    6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'J',
                    12 => 'M', 13 => 'N', 14 => 'O' }
-    @tonumbers = {}
+    @tonumbers = []
     @toletters.each do |key, value|
       @tonumbers[value] = key
     end
@@ -88,6 +88,7 @@ class Board
   # Si retorna true, el jugado de esta tabla ha perdido.
   def lost_board
     return true if @blocks_to_shoot.zero?
+  return false
   end
 
   # Inserta el barco de ser posible, en la posición indicada, orientación y tamaño
@@ -96,15 +97,19 @@ class Board
       puts format('Insertando un barco en %s en orientacion %s', position, orientation)
       index_i = @tonumbers[position[0]]
       index_j = position[1].to_i
+      ship_blocks = []
       if orientation == 'horizontal'
         (0..2).each do |n|
           @cells[index_i][index_j - 1 + n].convert_to_ship
+          ship_blocks.append([index_i, index_j - 1 + n])
         end
       else
         (0..2).each do |n|
           @cells[index_i - 1 + n][index_j].convert_to_ship
+          ship_blocks.append([index_i  - 1 + n, index_j])
         end
       end
+      @ships.append(ship_blocks)
     end
   end
 
@@ -135,6 +140,8 @@ class Board
     true
   end
 
+  #TODO def sinked_ship
+
   # simply shoots a block
   def shoot_block(position)
     index_i = @tonumbers[position[0]]
@@ -142,6 +149,7 @@ class Board
     if @cells[index_i][index_j].isship && @cells[index_i][index_j].shot == false
       @blocks_to_shoot -= 1
       @cells[index_i][index_j].gets_shoot
+      puts ('Ha dado con una seccion de barco en %s !', position)
       return true
     end
     false
