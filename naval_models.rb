@@ -46,11 +46,11 @@ class Board
     @size = size
     @ships_number = ships_number
     @cells = []
-    @ships = {}
+    @ships = []
     @toletters = { 0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F',
                    6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'J',
                    12 => 'M', 13 => 'N', 14 => 'O' }
-    @tonumbers = []
+    @tonumbers = {}
     @toletters.each do |key, value|
       @tonumbers[value] = key
     end
@@ -149,7 +149,7 @@ class Board
     if @cells[index_i][index_j].isship && @cells[index_i][index_j].shot == false
       @blocks_to_shoot -= 1
       @cells[index_i][index_j].gets_shoot
-      puts ('Ha dado con una seccion de barco en %s !', position)
+      puts format('Ha dado con una seccion de barco en %s !', position)
       return true
     end
     false
@@ -158,18 +158,18 @@ class Board
   attr_reader :cells
 end
 
-#game = Game.new(easy)
-#game.board1.insert_ship('A1', 'horizontal')
+game = Game.new(easy)
+game.board1.insert_ship('A1', 'horizontal')
 
 # Verifying is true
-#puts game.board1.cells[0][0].isship
-#puts game.board1.cells[0][1].isship
-#puts game.board1.cells[0][2].isship
+puts game.board1.cells[0][0].isship
+puts game.board1.cells[0][1].isship
+puts game.board1.cells[0][2].isship
 
 # verifying it gets properly shot
-#game.board1.shoot_block('A1')
-#game.board1.shoot_block('A0')
-#game.board1.shoot_block('A2')
-#puts game.board1.cells[0][0].shot
-#puts game.board1.cells[0][1].shot
-#puts game.board1.cells[0][2].shot
+game.board1.shoot_block('A1')
+game.board1.shoot_block('A0')
+game.board1.shoot_block('A2')
+puts game.board1.cells[0][0].shot
+puts game.board1.cells[0][1].shot
+puts game.board1.cells[0][2].shot
