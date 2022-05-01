@@ -169,7 +169,6 @@ class Board
       index_j = rand(0..@size - 1).to_s
       orientation = 'horizontal'
       orientation = 'vertical' if rand(0..1) == 1
-      puts 'atempting ' + index_i + index_j + ' ' + orientation
       if verify_insertion(index_i + index_j, orientation)
         insert_ship(index_i + index_j, orientation)
         inserted += 1
@@ -202,5 +201,5 @@ game.board1.insert_ship('A1', 'horizontal')
 #puts game.board1.cells[0][1].shot
 #puts game.board1.cells[0][2].shot
 
-game.board1.random_insertion(3)
-game.board1.random_shot
+#game.board1.random_insertion(3)
+#game.board1.random_shot
