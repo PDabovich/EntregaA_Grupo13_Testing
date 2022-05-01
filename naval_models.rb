@@ -153,6 +153,7 @@ class Board
       puts format('Ha dado con una seccion de barco en %s !', position)
       return true
     end
+    puts 'El tiro no ha dado en un barco'
     false
   end
 
@@ -174,7 +175,13 @@ class Board
         inserted += 1
       end
     end
-  end 
+  end
+
+  def random_shot
+    index_i = @toletters[rand(0..@size - 1)]
+    index_j = rand(0..@size - 1).to_s
+    shoot_block(index_i + index_j)
+  end
 
   attr_reader :cells, :ships
 end
@@ -196,3 +203,4 @@ game.board1.insert_ship('A1', 'horizontal')
 #puts game.board1.cells[0][2].shot
 
 game.board1.random_insertion(3)
+game.board1.random_shot
