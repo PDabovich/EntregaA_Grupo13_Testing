@@ -106,7 +106,8 @@ class Board
       else
         (0..2).each do |n|
           @cells[index_i - 1 + n][index_j].convert_to_ship
-          ship_blocks.append([index_i  - 1 + n, index_j])
+          block_index = [index_i  - 1 + n, index_j]
+          ship_blocks.append(block_index)
         end
       end
       @ships.append(ship_blocks)
@@ -152,24 +153,54 @@ class Board
       puts format('Ha dado con una seccion de barco en %s !', position)
       return true
     end
+    puts 'El tiro no ha dado en un barco'
     false
   end
 
-  attr_reader :cells
+  # Checks for sinked ship
+  def sinked_ship
+  end
+
+  # Inserts a random ship
+  def random_insertion(n)
+    inserted = 0
+    while inserted < n - 1
+      index_i = @toletters[rand(0..@size - 1)]
+      index_j = rand(0..@size - 1).to_s
+      orientation = 'horizontal'
+      orientation = 'vertical' if rand(0..1) == 1
+      puts 'atempting ' + index_i + index_j + ' ' + orientation
+      if verify_insertion(index_i + index_j, orientation)
+        insert_ship(index_i + index_j, orientation)
+        inserted += 1
+      end
+    end
+  end
+
+  def random_shot
+    index_i = @toletters[rand(0..@size - 1)]
+    index_j = rand(0..@size - 1).to_s
+    shoot_block(index_i + index_j)
+  end
+
+  attr_reader :cells, :ships
 end
 
 game = Game.new(easy)
 game.board1.insert_ship('A1', 'horizontal')
 
 # Verifying is true
-puts game.board1.cells[0][0].isship
-puts game.board1.cells[0][1].isship
-puts game.board1.cells[0][2].isship
+#puts game.board1.cells[0][0].isship
+#puts game.board1.cells[0][1].isship
+#puts game.board1.cells[0][2].isship
 
 # verifying it gets properly shot
-game.board1.shoot_block('A1')
-game.board1.shoot_block('A0')
-game.board1.shoot_block('A2')
-puts game.board1.cells[0][0].shot
-puts game.board1.cells[0][1].shot
-puts game.board1.cells[0][2].shot
+#game.board1.shoot_block('A1')
+#game.board1.shoot_block('A0')
+#game.board1.shoot_block('A2')
+#puts game.board1.cells[0][0].shot
+#puts game.board1.cells[0][1].shot
+#puts game.board1.cells[0][2].shot
+
+game.board1.random_insertion(3)
+game.board1.random_shot
