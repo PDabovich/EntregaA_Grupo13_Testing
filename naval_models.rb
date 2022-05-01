@@ -24,14 +24,16 @@ class Block
     @position = position
     @shot = false
     @isship = false
+    @shipId = 'NaN'
   end
-  attr_reader :position, :isship, :shot
+  attr_reader :position, :isship, :shot, :shipId
 end
 
 public
 
-def convert_to_ship
+def convert_to_ship(shipId)
   @isship = true
+  @shipId = shipId
 end
 
 public
@@ -100,12 +102,12 @@ class Board
       ship_blocks = []
       if orientation == 'horizontal'
         (0..2).each do |n|
-          @cells[index_i][index_j - 1 + n].convert_to_ship
+          @cells[index_i][index_j - 1 + n].convert_to_ship(position)
           ship_blocks.append([index_i, index_j - 1 + n])
         end
       else
         (0..2).each do |n|
-          @cells[index_i - 1 + n][index_j].convert_to_ship
+          @cells[index_i - 1 + n][index_j].convert_to_ship(position)
           block_index = [index_i  - 1 + n, index_j]
           ship_blocks.append(block_index)
         end
@@ -141,8 +143,6 @@ class Board
     true
   end
 
-  #TODO def sinked_ship
-
   # simply shoots a block
   def shoot_block(position)
     index_i = @tonumbers[position[0]]
@@ -150,15 +150,29 @@ class Board
     if @cells[index_i][index_j].isship && @cells[index_i][index_j].shot == false
       @blocks_to_shoot -= 1
       @cells[index_i][index_j].gets_shoot
+      shipId = @cells[index_i][index_j].shipId
       puts format('Ha dado con una seccion de barco en %s !', position)
+      sinked_ship_check(shipId)
       return true
     end
     puts 'El tiro no ha dado en un barco'
     false
   end
 
-  # Checks for sinked ship
-  def sinked_ship
+  # Checks for sinked ship.
+  def sinked_ship_check(shipId)
+    sinkedBlocks = 0
+    @cells.each do |row|
+      row.each do |block|
+        if block.shot && block.shipId == shipId
+          sinkedBlocks += 1
+        end
+        if sinkedBlocks == 3
+          puts 'Has hundido un barco con centro en ' + shipId
+          return
+        end
+      end
+    end  
   end
 
   # Inserts a random ship
@@ -189,17 +203,19 @@ game = Game.new(easy)
 game.board1.insert_ship('A1', 'horizontal')
 
 # Verifying is true
-#puts game.board1.cells[0][0].isship
-#puts game.board1.cells[0][1].isship
-#puts game.board1.cells[0][2].isship
+puts game.board1.cells[0][0].isship
+puts game.board1.cells[0][1].isship
+puts game.board1.cells[0][2].isship
 
 # verifying it gets properly shot
-#game.board1.shoot_block('A1')
-#game.board1.shoot_block('A0')
-#game.board1.shoot_block('A2')
+game.board1.shoot_block('A1')
+game.board1.shoot_block('A0')
+game.board1.shoot_block('A2')
 #puts game.board1.cells[0][0].shot
 #puts game.board1.cells[0][1].shot
 #puts game.board1.cells[0][2].shot
 
 #game.board1.random_insertion(3)
 #game.board1.random_shot
+
+#game.board1.sinked_ship_check('A1')
