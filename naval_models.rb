@@ -50,7 +50,7 @@ class Board
     @cells = []
     @ships = []
     @toletters = { 0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F',
-                   6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'J',
+                   6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'L',
                    12 => 'M', 13 => 'N', 14 => 'O' }
     @tonumbers = {}
     @toletters.each do |key, value|
@@ -113,14 +113,16 @@ class Board
         end
       end
       @ships.append(ship_blocks)
+      return true
     end
+    return false
   end
 
   # Verifica que el barco pueda ser insertado en el lugar propuesto
   def verify_insertion(position, orientation)
     index_i = @tonumbers[position[0]]
     index_j = position[1].to_i
-
+    
     if orientation == 'horizontal' && (index_j < 1 || index_j > @size - 2)
       return false
 
@@ -128,19 +130,23 @@ class Board
       return false
     end
 
-    i_array = [@cells[index_i - 1][index_j].isship, @cells[index_i][index_j].isship,
-               @cells[index_i + 1][index_j].isship]
-    j_array = [@cells[index_i][index_j - 1].isship, @cells[index_i][index_j].isship,
-               @cells[index_i][index_j + 1].isship]
+    if orientation == 'horizontal'
+      j_array = [@cells[index_i][index_j - 1].isship, @cells[index_i][index_j].isship,
+                 @cells[index_i][index_j + 1].isship]
 
-    if orientation == 'horizontal' && (j_array[0] || j_array[1] || j_array[2])
-      return false
+      if j_array[0] || j_array[1] || j_array[2]
+        return false
+      end
 
-    elsif orientation == 'vertical' && (i_array[0] || i_array[1] || j_array[2])
-      return false
+    elsif orientation == 'vertical'
+      i_array = [@cells[index_i - 1][index_j].isship, @cells[index_i][index_j].isship,
+      @cells[index_i + 1][index_j].isship]
+      if i_array[0] || i_array[1] || i_array[2]
+        return false
+      end
     end
 
-    true
+    return true
   end
 
   # simply shoots a block
@@ -179,10 +185,14 @@ class Board
   def random_insertion(n)
     inserted = 0
     while inserted < n - 1
-      index_i = @toletters[rand(0..@size - 1)]
-      index_j = rand(0..@size - 1).to_s
       orientation = 'horizontal'
-      orientation = 'vertical' if rand(0..1) == 1
+      index_i = @toletters[rand(1..@size - 2)]
+      index_j = rand(0..@size - 1).to_s
+      if rand(0..1) == 1
+        orientation = 'vertical' 
+        index_i = @toletters[rand(0..@size - 1)]
+        index_j = rand(1..@size - 2).to_s
+      end 
       if verify_insertion(index_i + index_j, orientation)
         insert_ship(index_i + index_j, orientation)
         inserted += 1
@@ -199,23 +209,24 @@ class Board
   attr_reader :cells, :ships
 end
 
-game = Game.new(easy)
-game.board1.insert_ship('A1', 'horizontal')
+# game = Game.new(easy)
+# game.board1.insert_ship('J1', 'horizontal')
+# puts game.board1.cells[9][1].isship
 
 # Verifying is true
-puts game.board1.cells[0][0].isship
-puts game.board1.cells[0][1].isship
-puts game.board1.cells[0][2].isship
+# puts game.board1.cells[0][0].isship
+# puts game.board1.cells[0][1].isship
+# puts game.board1.cells[0][2].isship
 
 # verifying it gets properly shot
-game.board1.shoot_block('A1')
-game.board1.shoot_block('A0')
-game.board1.shoot_block('A2')
+# game.board1.shoot_block('A1')
+# game.board1.shoot_block('A0')
+# game.board1.shoot_block('A2')
 #puts game.board1.cells[0][0].shot
 #puts game.board1.cells[0][1].shot
 #puts game.board1.cells[0][2].shot
 
-#game.board1.random_insertion(3)
+#game.board1.random_insertion(5)
 #game.board1.random_shot
 
 #game.board1.sinked_ship_check('A1')
