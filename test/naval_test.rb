@@ -1,5 +1,7 @@
 require 'minitest/autorun'
 require_relative '../naval_models.rb'
+require 'simplecov'
+SimpleCov.start
 
 class GameTest < Minitest::Test
 
@@ -86,6 +88,24 @@ class GameTest < Minitest::Test
     assert_equal(true, game.board1.cells[1][3].shot)
     game.board1.shoot_block('E0')
     assert_equal(true, game.board1.cells[4][0].shot)
-    
-  end 
+  end
+
+  def test_shooting_with_ships
+    #size 10x10 board
+    easy = { 'size' => 10, 'ships' => 5 }
+    game = Game.new(easy) 
+
+    game.board1.insert_ship('A1', 'horizontal')
+    game.board1.shoot_block('A0')
+    assert_equal(true, game.board1.cells[0][0].shot)
+    game.board1.insert_ship('J8', 'horizontal')
+    game.board1.shoot_block('J9')
+    assert_equal(true, game.board1.cells[9][9].shot)
+    game.board1.insert_ship('B3', 'horizontal')
+    game.board1.shoot_block('B3')
+    assert_equal(true, game.board1.cells[1][3].shot)
+    game.board1.insert_ship('E1', 'horizontal')
+    game.board1.shoot_block('E0')
+    assert_equal(true, game.board1.cells[4][0].shot)
+  end
 end
