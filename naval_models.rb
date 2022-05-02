@@ -15,7 +15,7 @@ class Game
     @board2 = Board.new(@difficulty['size'], @difficulty['ships'])
   end
 
-  attr_reader :board1, :board2
+  attr_reader :board1, :board2, :difficulty
 end
 
 # Creacion bloque #
