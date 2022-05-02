@@ -72,4 +72,20 @@ class GameTest < Minitest::Test
     assert_equal(true, valid_insert_output_7)
     assert_equal(true, valid_insert_output_8)
   end
+
+  def test_shooting_without_ships
+    #size 10x10 board
+    easy = { 'size' => 10, 'ships' => 5 }
+    game = Game.new(easy) 
+
+    game.board1.shoot_block('A0')
+    assert_equal(true, game.board1.cells[0][0].shot)
+    game.board1.shoot_block('J9')
+    assert_equal(true, game.board1.cells[9][9].shot)
+    game.board1.shoot_block('B3')
+    assert_equal(true, game.board1.cells[1][3].shot)
+    game.board1.shoot_block('E0')
+    assert_equal(true, game.board1.cells[4][0].shot)
+    
+  end 
 end

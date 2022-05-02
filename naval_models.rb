@@ -161,8 +161,9 @@ class Board
       sinked_ship_check(shipId)
       return true
     end
+    @cells[index_i][index_j].gets_shoot
     puts 'El tiro no ha dado en un barco'
-    false
+    return false
   end
 
   # Checks for sinked ship.
