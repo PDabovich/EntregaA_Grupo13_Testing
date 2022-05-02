@@ -15,7 +15,7 @@ class Game
     @board2 = Board.new(@difficulty['size'], @difficulty['ships'])
   end
 
-  attr_reader :board1, :board2
+  attr_reader :board1, :board2, :difficulty
 end
 
 # Creacion bloque #
@@ -68,6 +68,7 @@ class Board
 
     cells_create
   end
+  attr_reader :blocks_to_shoot
 
   # Ayuda a crear bloques en el inicio del juego
   def cells_create
