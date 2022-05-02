@@ -56,9 +56,10 @@ return true
 end
 
 class View
-    def initialize()
-        @tablero = []
-        @diff = 0
+    def initialize(diff)
+        @tablero_inicio = []
+        @tablero_juego = []
+        @diff = diff
         @pieces = { 'side' => '│', 'topbot' => '─', 'tl' => '┌', 'tr' => '┐',
             'bl' =>'└', 'br' => '┘', 'lc' => '├', 'rc' => '┤',
             'tc' => '┬', 'bc' => '┴', 'crs' => '┼' }
@@ -69,22 +70,50 @@ class View
         @toletters.each do |key, value|
         @tonumbers[value] = key
         end
+        boardinit
     end
-    def printBoard(boardModel)
-        @diff = boardModel.difficulty['size']
+
+    def printTablero_juego
+        drawgrid(@tablero_juego, @pieces, @diff)
+    end
+
+    def boardinit
         for i in 1..@diff
             fila = []
             for j in 1..@diff
                 fila << ' '
             end
-            @tablero << fila
+            @tablero_juego << fila
         end
-        drawgrid(@tablero, @pieces, @diff)
     end
-    def actualizarTablero(position, tipo)
-        @tablero[position[1].to_i][@tonumbers[position[0]]] = 'B' if tipo == 'B'
-        @tablero[position[1].to_i][@tonumbers[position[0]]] = 'X' if tipo == 'X'
-        @tablero[position[1].to_i][@tonumbers[position[0]]] = 'O' if tipo == 'O'
-        drawgrid(@tablero, @pieces, @diff)
+
+    def printBoard
+        for i in 1..@diff
+            fila = []
+            for j in 1..@diff
+                fila << ' '
+            end
+            @tablero_inicio << fila
+        end
+        drawgrid(@tablero_inicio, @pieces, @diff)
+    end
+
+    def mostrarBarcos(position, orientacion)
+        if orientacion == 'horizontal'
+            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]-1] = 'B'
+            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]] = 'B'
+            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]+1] = 'B'
+        else
+            @tablero_inicio[position[1].to_i-1][@tonumbers[position[0]]] = 'B' 
+            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]] = 'B' 
+            @tablero_inicio[position[1].to_i+1][@tonumbers[position[0]]] = 'B'
+        end
+        drawgrid(@tablero_inicio, @pieces, @diff)
+    end
+
+    def actualizarTablero(position, tipo)        
+        @tablero_juego[position[1].to_i][@tonumbers[position[0]]] = 'X' if tipo == 'X'
+        @tablero_juego[position[1].to_i][@tonumbers[position[0]]] = 'O' if tipo == 'O'
     end
 end
+

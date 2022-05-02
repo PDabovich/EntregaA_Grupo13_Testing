@@ -12,11 +12,10 @@ else
 end
 
 game = Game.new(diff)
-view = View.new
+view = View.new(diff['size'])
 controller = NavalController.new(game,view)
 controller.printBoard
-for i in 1..2
-  for j in 1..diff["ships"]
-      controller.requestShips(i,j)
-    end
+for j in 1..diff["ships"]
+    controller.requestShips(j)
 end
+controller.playGame

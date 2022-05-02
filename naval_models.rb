@@ -68,6 +68,7 @@ class Board
 
     cells_create
   end
+  attr_reader :blocks_to_shoot
 
   # Ayuda a crear bloques en el inicio del juego
   def cells_create

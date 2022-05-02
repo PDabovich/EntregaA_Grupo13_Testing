@@ -2,38 +2,65 @@ class NavalController
     def initialize(nGame, nView)
         @model = nGame
         @view = nView
+        @model.board2.random_insertion(@model.difficulty['ships'])
     end
 
 
     def printBoard
-        @view.printBoard(@model)
+        @view.printBoard
     end
 
-    def verifyResponse(valor)
-        
-
-    def requestShips(player,ship)
-        key_x = ' '
-        key_y = ' '
-        while verifyResponse(key_x[0,1], @model.difficulty['size']) 
-            print "Jugador #{player} inserte la posicion X del barco n°#{ship} X\n"
-            key_x = $stdin.gets
+    def verifyResponse(valor, size)
+        options = 'ABCDEFGHIJKLMNO'
+        if options[0,size].include?(valor[0]) && valor[1].to_i < size
+            true 
+        else
+            puts "Error de sintaxis \n"
+            false
         end
-        print "Jugador #{player} inserte la posicion Y del barco n°#{ship} X\n"
-        key_y = $stdin.gets
-        print "Jugador #{player} inserte la orientacion del barco n°#{ship} (H para horizontal, V para vertical) X\n"
+    end
+
+    def requestShips(ship)
+        while true 
+            print "Jugador inserte la posicion del barco n°#{ship} (Ej: A1)\n"
+            key = $stdin.gets
+            break if verifyResponse(key[0,2], @model.difficulty['size'])
+        end
+        print "Jugador inserte la orientacion del barco n°#{ship} (H para horizontal, V para vertical) \n"
         orient = $stdin.gets
         if orient[0,1] == "H"
         orienta = 'horizontal'
         else
         orienta = 'vertical'
         end
-        position = key_x[0,1] + key_y[0,1]
+        position = key[0,2]
         if @model.board1.verify_insertion(position, orienta)
             @model.board1.insert_ship(position, orienta)
-            @view.actualizarTablero(position, 'B')
+            @view.mostrarBarcos(position, orienta)
         else
             puts 'posición no válida'
         end
+    end
+
+    def playGame
+        while true
+        break if @model.board1.blocks_to_shoot == 0
+        break if @model.board2.blocks_to_shoot == 0
+        @view.printTablero_juego
+        while true
+        print "Jugador inserte la posicion donde desea disparar (Ej: A1)\n"
+            key = $stdin.gets
+        break if verifyResponse(key[0,2], @model.difficulty['size'])
+        end
+        if @model.board2.shoot_block(key[0,2])
+            @view.actualizarTablero(key[0,2], 'O')
+        else
+            @view.actualizarTablero(key[0,2], 'X')
+        end
+        @model.board1.random_shot
+        end
+        @view.printTablero_juego
+        puts "FELICITACIONES HAS HUNDIDO TODOS LOS BARCOS ENEMIGOS" if @model.board2.blocks_to_shoot == 0
+        puts "Te han derrotado, mejor suerte para la próxima" if @model.board1.blocks_to_shoot == 0
     end
 end
