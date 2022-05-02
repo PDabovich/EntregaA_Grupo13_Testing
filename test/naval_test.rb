@@ -54,14 +54,14 @@ class GameTest < Minitest::Test
     game = Game.new(easy) 
 
     #Inserts an valid limit ship
-    valid_insert_output_1 = game.board1.insert_ship('A1', 'horizontal')
-    valid_insert_output_2 = game.board2.insert_ship('B0', 'vertical')
-    valid_insert_output_3 = game.board1.insert_ship('A8', 'horizontal')
-    valid_insert_output_4 = game.board2.insert_ship('B9', 'vertical')
-    valid_insert_output_5 = game.board1.insert_ship('J1', 'horizontal')
-    valid_insert_output_6 = game.board2.insert_ship('H0', 'vertical')
-    valid_insert_output_7 = game.board1.insert_ship('J8', 'horizontal')
-    valid_insert_output_8 = game.board2.insert_ship('I9', 'vertical')
+    valid_insert_output_1 = game.board1.insert_ship('A1', 'vertical')
+    valid_insert_output_2 = game.board2.insert_ship('B0', 'horizontal')
+    valid_insert_output_3 = game.board1.insert_ship('A8', 'vertical')
+    valid_insert_output_4 = game.board2.insert_ship('B9', 'horizontal')
+    valid_insert_output_5 = game.board1.insert_ship('J1', 'vertical')
+    valid_insert_output_6 = game.board2.insert_ship('H0', 'horizontal')
+    valid_insert_output_7 = game.board1.insert_ship('J8', 'vertical')
+    valid_insert_output_8 = game.board2.insert_ship('I9', 'horizontal')
 
     assert_equal(true, valid_insert_output_1)
     assert_equal(true, valid_insert_output_2)
