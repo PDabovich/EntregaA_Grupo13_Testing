@@ -103,13 +103,13 @@ class Board
       ship_blocks = []
       if orientation == 'horizontal'
         (0..2).each do |n|
-          @cells[index_i][index_j - 1 + n].convert_to_ship(position)
-          ship_blocks.append([index_i, index_j - 1 + n])
+          @cells[index_i - 1 + n][index_j].convert_to_ship(position)
+          ship_blocks.append([index_i - 1 + n, index_j])
         end
       else
         (0..2).each do |n|
-          @cells[index_i - 1 + n][index_j].convert_to_ship(position)
-          block_index = [index_i  - 1 + n, index_j]
+          @cells[index_i][index_j - 1 + n].convert_to_ship(position)
+          block_index = [index_i, index_j  - 1 + n]
           ship_blocks.append(block_index)
         end
       end
@@ -123,25 +123,24 @@ class Board
   def verify_insertion(position, orientation)
     index_i = @tonumbers[position[0]]
     index_j = position[1].to_i
-    
-    if orientation == 'horizontal' && (index_j < 1 || index_j > @size - 2)
+    if orientation == 'horizontal' && (index_i < 1 || index_i > @size - 2)
       return false
 
-    elsif orientation == 'vertical' && (index_i < 1 || index_i > @size - 2)
+    elsif orientation == 'vertical' && (index_j < 1 || index_j > @size - 2)
       return false
     end
 
     if orientation == 'horizontal'
-      j_array = [@cells[index_i][index_j - 1].isship, @cells[index_i][index_j].isship,
-                 @cells[index_i][index_j + 1].isship]
+      j_array = [@cells[index_i - 1][index_j].isship, @cells[index_i][index_j].isship,
+                 @cells[index_i + 1][index_j].isship]
 
       if j_array[0] || j_array[1] || j_array[2]
         return false
       end
 
     elsif orientation == 'vertical'
-      i_array = [@cells[index_i - 1][index_j].isship, @cells[index_i][index_j].isship,
-      @cells[index_i + 1][index_j].isship]
+      i_array = [@cells[index_i][index_j - 1].isship, @cells[index_i][index_j].isship,
+      @cells[index_i][index_j + 1].isship]
       if i_array[0] || i_array[1] || i_array[2]
         return false
       end
@@ -180,7 +179,7 @@ class Board
           return
         end
       end
-    end  
+    end
   end
 
   # Inserts a random ship
@@ -191,10 +190,10 @@ class Board
       index_i = @toletters[rand(1..@size - 2)]
       index_j = rand(0..@size - 1).to_s
       if rand(0..1) == 1
-        orientation = 'vertical' 
+        orientation = 'vertical'
         index_i = @toletters[rand(0..@size - 1)]
         index_j = rand(1..@size - 2).to_s
-      end 
+      end
       if verify_insertion(index_i + index_j, orientation)
         insert_ship(index_i + index_j, orientation)
         inserted += 1

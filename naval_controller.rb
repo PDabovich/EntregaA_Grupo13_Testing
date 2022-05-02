@@ -13,7 +13,7 @@ class NavalController
     def verifyResponse(valor, size)
         options = 'ABCDEFGHIJKLMNO'
         if options[0,size].include?(valor[0]) && valor[1].to_i < size
-            true 
+            true
         else
             puts "Error de sintaxis \n"
             false
@@ -21,7 +21,7 @@ class NavalController
     end
 
     def requestShips(ship)
-        while true 
+        while true
             print "Jugador inserte la posicion del barco n°#{ship} (Ej: A1)\n"
             key = $stdin.gets
             break if verifyResponse(key[0,2], @model.difficulty['size'])
