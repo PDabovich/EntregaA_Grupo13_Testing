@@ -1,5 +1,5 @@
-# require 'simplecov'
-# SimpleCov.start
+require 'simplecov'
+SimpleCov.start
 require 'minitest/autorun'
 require_relative '../naval_models.rb'
 
@@ -93,8 +93,11 @@ class GameTest < Minitest::Test
 
   def test_random_shot
     easy = { 'size' => 10, 'ships' => 5 }
-    game = Game.new(easy) 
-    game.board1.random_shot
-    game.board1.random_insertion(3)
+    game = Game.new(easy)
+    game.board1.random_insertion(5)
+    while game.board1.blocks_to_shoot > 0
+      game.board1.random_shot
+    end
+    assert_equal(game.board1.lost_board, true)
   end
 end
