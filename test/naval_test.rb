@@ -8,21 +8,10 @@ class GameTest < Minitest::Test
   def test_insert_ship
     easy = { 'size' => 10, 'ships' => 5 }
     game = Game.new(easy)
-    game.board1.insert_ship('A1', 'horizontal')
-    puts game.board1.cells[0][0].isship
-    puts game.board1.cells[0][1].isship
-    puts game.board1.cells[0][2].isship
-    end
-
-  def test_shoot_block
-    easy = { 'size' => 10, 'ships' => 5 }
-    game = Game.new(easy)
-    game.board1.shoot_block('A1')
-    game.board1.shoot_block('A0')
-    game.board1.shoot_block('A2')
-    puts game.board1.cells[0][0].shot
-    puts game.board1.cells[0][1].shot
-    puts game.board1.cells[0][2].shot
+    game.board1.insert_ship('A1', 'vertical')
+    assert_equal(game.board1.cells[0][0].isship, true)
+    assert_equal(game.board1.cells[0][1].isship, true)
+    assert_equal(game.board1.cells[0][2].isship, true)
   end
 
   ### ACTUAL TEST
@@ -91,6 +80,16 @@ class GameTest < Minitest::Test
     
   end 
 
+  def test_sink_ship
+    easy = { 'size' => 10, 'ships' => 5 }
+    game = Game.new(easy)
+    game.board1.insert_ship('A1', 'vertical')
+    game.board1.shoot_block('A0')
+    game.board1.shoot_block('A1')
+    game.board1.shoot_block('A2')
+    assert_equal(true, game.board1.sinked_ship_check('A1'))
+  end
+
   def test_random_shot
     easy = { 'size' => 10, 'ships' => 5 }
     game = Game.new(easy)
@@ -99,5 +98,27 @@ class GameTest < Minitest::Test
       game.board1.random_shot
     end
     assert_equal(game.board1.lost_board, true)
+  end
+
+  def ship_blocks_count(cells)
+    countedBlocks = 0
+    cells.each do |row|
+      row.each do |block|
+        if block.isship
+          countedBlocks += 1
+        end
+      end
+    end
+    return countedBlocks
+  end
+
+  def test_random_insert
+    easy = { 'size' => 10, 'ships' => 5 }
+    game = Game.new(easy)
+    game.board1.random_insertion(5)
+
+    #3 blocks per ship -> 15 blocks
+    assert_equal(15, ship_blocks_count(game.board1.cells))
+
   end
 end

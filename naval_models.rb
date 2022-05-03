@@ -173,10 +173,11 @@ class Board
         end
         if sinkedBlocks == 3
           puts 'Has hundido un barco con centro en ' + shipId
-          return
+          return true
         end
       end
     end
+    return false
   end
 
   # Inserts a random ship
