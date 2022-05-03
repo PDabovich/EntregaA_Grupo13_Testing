@@ -59,7 +59,7 @@ class Board
                          # 5 boats
                          15
                        else
-                         # 3 boats
+                         # 8 boats
                          24
                        end
 
@@ -150,7 +150,7 @@ class Board
   def shoot_block(position)
     index_i = @tonumbers[position[0]]
     index_j = position[1].to_i
-    if @cells[index_j][index_i].isship && @cells[index_i][index_j].shot == false
+    if @cells[index_i][index_j].isship && @cells[index_i][index_j].shot == false
       @blocks_to_shoot -= 1
       @cells[index_i][index_j].gets_shoot
       shipId = @cells[index_i][index_j].shipId
@@ -182,7 +182,7 @@ class Board
   # Inserts a random ship
   def random_insertion(n)
     inserted = 0
-    while inserted < n - 1
+    while inserted < n 
       orientation = 'horizontal'
       index_i = @toletters[rand(1..@size - 2)]
       index_j = rand(0..@size - 1).to_s
