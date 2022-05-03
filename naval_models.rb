@@ -60,10 +60,10 @@ class Board
 
                          # Si alguno de estos atributos llega a 0 el juego termina con el oponente ganando
                          # 5 boats
-                         9
+                         15
                        else
                          # 3 boats
-                         15
+                         24
                        end
 
     cells_create
@@ -153,10 +153,10 @@ class Board
   def shoot_block(position)
     index_i = @tonumbers[position[0]]
     index_j = position[1].to_i
-    if @cells[index_i][index_j].isship && @cells[index_i][index_j].shot == false
+    if @cells[index_j][index_i].isship && @cells[index_i][index_j].shot == false
       @blocks_to_shoot -= 1
-      @cells[index_i][index_j].gets_shoot
-      shipId = @cells[index_i][index_j].shipId
+      @cells[index_j][index_i].gets_shoot
+      shipId = @cells[index_j][index_i].shipId
       puts format('Ha dado con una seccion de barco en %s !', position)
       sinked_ship_check(shipId)
       return true
