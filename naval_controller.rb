@@ -24,7 +24,7 @@ class NavalController
         while true
             print "Jugador inserte la posicion del barco n°#{ship} (Ej: A1)\n"
             key = $stdin.gets
-            break if verifyResponse(key[0,2], @model.difficulty['size'])
+            break if verifyResponse(key[0..-2], @model.difficulty['size'])
         end
         print "Jugador inserte la orientacion del barco n°#{ship} (H para horizontal, V para vertical) \n"
         orient = $stdin.gets
@@ -33,7 +33,7 @@ class NavalController
         else
         orienta = 'vertical'
         end
-        position = key[0,2]
+        position = key[0..-2]
         if @model.board1.verify_insertion(position, orienta)
             @model.board1.insert_ship(position, orienta)
             @view.mostrarBarcos(position, orienta)
@@ -50,12 +50,12 @@ class NavalController
         while true
         print "Jugador inserte la posicion donde desea disparar (Ej: A1)\n"
             key = $stdin.gets
-        break if verifyResponse(key[0,2], @model.difficulty['size'])
+        break if verifyResponse(key[0..-2], @model.difficulty['size'])
         end
-        if @model.board2.shoot_block(key[0,2])
-            @view.actualizarTablero(key[0,2], 'O')
+        if @model.board2.shoot_block(key[0..-2])
+            @view.actualizarTablero(key[0..-2], 'O')
         else
-            @view.actualizarTablero(key[0,2], 'X')
+            @view.actualizarTablero(key[0..-2], 'X')
         end
         @model.board1.random_shot
         end

@@ -100,20 +100,20 @@ class View
 
     def mostrarBarcos(position, orientacion)
         if orientacion == 'horizontal'
-            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]-1] = 'B'
-            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]] = 'B'
-            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]+1] = 'B'
+            @tablero_inicio[position[1,2].to_i][@tonumbers[position[0]]-1] = 'B'
+            @tablero_inicio[position[1,2].to_i][@tonumbers[position[0]]] = 'B'
+            @tablero_inicio[position[1,2].to_i][@tonumbers[position[0]]+1] = 'B'
         else
-            @tablero_inicio[position[1].to_i-1][@tonumbers[position[0]]] = 'B' 
-            @tablero_inicio[position[1].to_i][@tonumbers[position[0]]] = 'B' 
-            @tablero_inicio[position[1].to_i+1][@tonumbers[position[0]]] = 'B'
+            @tablero_inicio[position[1,2].to_i-1][@tonumbers[position[0]]] = 'B' 
+            @tablero_inicio[position[1,2].to_i][@tonumbers[position[0]]] = 'B' 
+            @tablero_inicio[position[1,2].to_i+1][@tonumbers[position[0]]] = 'B'
         end
         drawgrid(@tablero_inicio, @pieces, @diff)
     end
 
     def actualizarTablero(position, tipo)        
-        @tablero_juego[position[1].to_i][@tonumbers[position[0]]] = 'X' if tipo == 'X'
-        @tablero_juego[position[1].to_i][@tonumbers[position[0]]] = 'O' if tipo == 'O'
+        @tablero_juego[position[1,2].to_i][@tonumbers[position[0]]] = 'X' if tipo == 'X'
+        @tablero_juego[position[1,2].to_i][@tonumbers[position[0]]] = 'O' if tipo == 'O'
     end
 end
 
