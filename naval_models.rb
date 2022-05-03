@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-easy = { 'size' => 10, 'ships' => 5 }
-hard = { 'size' => 15, 'ships' => 8 }
-
 # Creacion de juego #
 class Game
   def initialize(diff)
@@ -60,10 +57,10 @@ class Board
 
                          # Si alguno de estos atributos llega a 0 el juego termina con el oponente ganando
                          # 5 boats
-                         9
+                         15
                        else
                          # 3 boats
-                         15
+                         24
                        end
 
     cells_create
@@ -153,7 +150,7 @@ class Board
   def shoot_block(position)
     index_i = @tonumbers[position[0]]
     index_j = position[1].to_i
-    if @cells[index_i][index_j].isship && @cells[index_i][index_j].shot == false
+    if @cells[index_j][index_i].isship && @cells[index_i][index_j].shot == false
       @blocks_to_shoot -= 1
       @cells[index_i][index_j].gets_shoot
       shipId = @cells[index_i][index_j].shipId
@@ -209,25 +206,3 @@ class Board
 
   attr_reader :cells, :ships
 end
-
-# game = Game.new(easy)
-# game.board1.insert_ship('J1', 'horizontal')
-# puts game.board1.cells[9][1].isship
-
-# Verifying is true
-# puts game.board1.cells[0][0].isship
-# puts game.board1.cells[0][1].isship
-# puts game.board1.cells[0][2].isship
-
-# verifying it gets properly shot
-# game.board1.shoot_block('A1')
-# game.board1.shoot_block('A0')
-# game.board1.shoot_block('A2')
-#puts game.board1.cells[0][0].shot
-#puts game.board1.cells[0][1].shot
-#puts game.board1.cells[0][2].shot
-
-#game.board1.random_insertion(5)
-#game.board1.random_shot
-
-#game.board1.sinked_ship_check('A1')
