@@ -20,4 +20,4 @@ Ahora hay que ingresar los barcos en el tablero del jugador, dependiendo de la d
 
 Una vez ingresado la totalidad de barcos necesarios se inicia el juego, el jugador ahora deberá ingresar la posición de donde quiere realizar un tiro en el tablero enemigo, una vez realizado esto la cpu realizará también un tiro, si el tiro ha dado en el blanco de algún barco aparecerá en consola, al igual si se ha hundido algún barco.
 
-Una vez hundido todos los barcos o pasado cierto número de turnos se terminará el juego dando por ganador al jugador que haya hundido todos los barcos.
+Una vez hundido todos los barcos se terminará el juego, dando por ganador al jugador que haya hundido todos los barcos del enemigo.
