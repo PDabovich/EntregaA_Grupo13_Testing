@@ -1,5 +1,5 @@
-require 'simplecov'
-SimpleCov.start
+# require 'simplecov'
+# SimpleCov.start
 require 'minitest/autorun'
 require_relative '../naval_models.rb'
 
